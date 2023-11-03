@@ -3,7 +3,7 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 10vmin;
   pointer-events: none;
 }
 
@@ -15,7 +15,8 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  /* min-height: 5%; */
+  height: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,6 +28,28 @@
 .App-link {
   color: #61dafb;
 }
+
+       
+.btn-grad {
+  background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA  51%, #1FA2FF  100%);
+  margin: 10px;
+  padding: 15px 25px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;            
+  box-shadow: 0 0 10px #eee;
+  /* border-radius: 10px; */
+  display: block;
+}
+
+.btn-grad:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
 
 @keyframes App-logo-spin {
   from {
