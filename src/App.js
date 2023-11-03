@@ -7,24 +7,23 @@ function Button({ onClick, text }) {
 }
 
 // TodoItem Component
-function TodoItem({ todo, onEdit }) {
+function TodoItem({ todo }) {
   return (
     <div>
       <p>Title: {todo.title}</p>
       <p>Deadline: {todo.deadline}</p>
       <p>Status: {todo.status}</p>
-      <Button onClick={() => onEdit(todo.id)} text="Edit" />
     </div>
   );
 }
 
 // TodoList Component
-function TodoList({ todos, onEdit }) {
+function TodoList({ todolist }) {
   return (
     <div>
       <h2>Todo List</h2>
-      {todos.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} onEdit={onEdit} />
+      {todolist.map((todo) => (
+        <TodoItem key={todo.id} todo={todo} />
       ))}
     </div>
   );
@@ -60,7 +59,6 @@ function TodoForm({ onAdd, todoToEdit, onEdit, isOpen, toggleForm }) {
     <div>
       {isOpen && (
         <div>
-          <h2>{todoToEdit ? 'Edit Todo' : 'Add Todo'}</h2>
           <label>
             Title:
             <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -80,7 +78,7 @@ function TodoForm({ onAdd, todoToEdit, onEdit, isOpen, toggleForm }) {
             </select>
           </label>
           <br />
-          <Button onClick={handleSave} text={todoToEdit ? 'Save' : 'Add'} />
+          <Button onClick={handleSave} text="Add"/>
           <Button onClick={handleClear} text="Clear" />
 
         </div>
@@ -91,35 +89,24 @@ function TodoForm({ onAdd, todoToEdit, onEdit, isOpen, toggleForm }) {
 
 // App Component
 function App() {
-  const [todos, setTodos] = useState([]);
-  const [editTodo, setEditTodo] = useState(null);
+  const [todolist, settodolist] = useState([]);
   const [formOpen, setFormOpen] = useState(false);
 
   const addTodo = (newTodo) => {
-    setTodos([...todos, { ...newTodo, id: Date.now() }]);
+    settodolist([...todolist, { ...newTodo, id: Date.now() }]);
     setFormOpen(false);
   };
 
-  const editTodoItem = (editedTodo) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.id === editedTodo.id ? editedTodo : todo
-    );
-    setTodos(updatedTodos);
-    setEditTodo(null);
-    setFormOpen(false);
-  };
 
   return (
     <div>
       <Button onClick={() => setFormOpen(true)} text="Add Todo" />
       <TodoForm
         onAdd={addTodo}
-        todoToEdit={editTodo}
-        onEdit={editTodoItem}
         isOpen={formOpen}
         toggleForm={() => setFormOpen(!formOpen)}
       />
-      <TodoList todos={todos} onEdit={setEditTodo} />
+      <TodoList todolist={todolist} />
     </div>
   );
 }
