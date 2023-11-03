@@ -1,6 +1,6 @@
 # Getting Started with My-ToDo App
 
-## Overiview of Files
+## File structure
 
 **1. Index.js** - Entry point of the React app, where we typically render the main component(App.js) into DOM. \
 **2. App.js** - Root component of the application, serves as container for other components, defines overall structure of UI. \
@@ -9,6 +9,10 @@
 **5. Virtual DOM** - When we create a React component, React builds a Virtual representaion(lightweight JS object) of the real DOM, When the component's state or props change it compares the differences. 
 React then updates only the parts of the actual DOM that have changed, resulting in a more efficient update process, using the minimum number of DOM manipulations (performance optimization).
 
+## About My-ToDo App
+
+App adds new To-Do items including the title, deadline and status(in-progress, done, not started).Status can be identified from 3 different colors when viewing in the list. 
+Also you can edit the items added. 
 
 ## How to run
 
