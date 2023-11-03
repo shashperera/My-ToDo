@@ -2,7 +2,7 @@
 
 ## Overiview of Files
 
-**1. Index.js **
+**1. Index.js**
     Entry point of the React app, where we typically render the main component(App.js) into DOM
 **2. App.js**
     Root component of the application, serves as container for other components, defines overall structure of UI
