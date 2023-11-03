@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Button,
   AppBar,
-  Grid,
   Toolbar,
   Typography,
   Popover,
@@ -16,15 +15,30 @@ import {
   Select,
   MenuItem,
 } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import WarningIcon from '@mui/icons-material/Warning';
+import ErrorIcon from '@mui/icons-material/Error';
 
 // TodoItem Component
 function TodoItem({ todo }) {
+  // Define icons for each status
+  const statusIcons = {
+    'not started': <ErrorIcon sx={{ color: 'red' }} />,
+    'in progress': <WarningIcon sx={{ color: 'yellow' }} />,
+    'done': <CheckCircleIcon sx={{ color: 'green' }} />,
+  };
+
   return (
-    <div>
-      <p>Title: {todo.title}</p>
-      <p>Deadline: {todo.deadline}</p>
-      <p>Status: {todo.status}</p>
-    </div>
+    <Card variant="outlined" sx={{ marginBottom: 2 }}>
+      <CardContent>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
+   
+        </div>
+        <Typography variant="body2">{statusIcons[todo.status]}Title: {todo.title}</Typography>
+        <Typography variant="body2">{statusIcons[todo.status]} Deadline: {todo.deadline}</Typography>
+        
+      </CardContent>
+    </Card>
   );
 }
 
@@ -32,12 +46,13 @@ function TodoItem({ todo }) {
 function TodoList({ todolist }) {
   return (
     <div>
-      <Typography sx={{ margin: '20px' }} variant="h6">
+      <Typography sx={{ marginY: 2 }} variant="h6">
         Todo List
       </Typography>
       {todolist.map((todo) => (
-        <TodoItem sx={{ margin: '30px' }} key={todo.id} todo={todo} />
+        <TodoItem key={todo.id} todo={todo} />
       ))}
+      <p><ErrorIcon sx={{ color: 'red' }}/>not started {"\t\t\t\t\t"}  <WarningIcon sx={{ color: 'yellow' }} />in progress <CheckCircleIcon sx={{ color: 'green' }} />done</p>
     </div>
   );
 }
@@ -65,14 +80,13 @@ function TodoForm({ onAdd, todoToEdit, onEdit }) {
     setStatus('not started');
   };
 
-
   const formContainerStyle = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
-    margin:'20px'
+    margin: '20px',
   };
 
   return (
@@ -81,11 +95,11 @@ function TodoForm({ onAdd, todoToEdit, onEdit }) {
         <InputLabel htmlFor="component-simple">Title:</InputLabel>
         <Input id="component-simple" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
       </FormControl>
-      <FormControl sx={{marginTop:'10px'}}variant="standard">
+      <FormControl sx={{ marginTop: '10px' }} variant="standard">
         <InputLabel htmlFor="component-simple">Deadline:</InputLabel>
         <Input id="component-simple" type="text" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
       </FormControl>
-      <FormControl  sx={{marginTop:'10px'}} variant="standard">
+      <FormControl sx={{ marginTop: '10px' }} variant="standard">
         <InputLabel htmlFor="status-select">Status:</InputLabel>
         <Select
           id="status-select"
@@ -98,7 +112,7 @@ function TodoForm({ onAdd, todoToEdit, onEdit }) {
         </Select>
       </FormControl>
       <Box sx={{ display: 'flex', justifyContent: 'center', margin: '20px' }}>
-        <Button sx={{marginRight:'20px'}} variant="contained" onClick={handleSave}>
+        <Button sx={{ marginRight: '20px' }} variant="contained" onClick={handleSave}>
           Add
         </Button>
         <Button variant="contained" onClick={handleClear}>
