@@ -1,5 +1,21 @@
 import React, { useState } from 'react';
-import { Button, AppBar, Toolbar, Typography, Popover, Box, Card, CardActions, CardContent, FormControl, InputLabel, Input, Select, MenuItem, TableRow } from '@mui/material';
+import {
+  Button,
+  AppBar,
+  Grid,
+  Toolbar,
+  Typography,
+  Popover,
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  FormControl,
+  InputLabel,
+  Input,
+  Select,
+  MenuItem,
+} from '@mui/material';
 
 // TodoItem Component
 function TodoItem({ todo }) {
@@ -16,9 +32,11 @@ function TodoItem({ todo }) {
 function TodoList({ todolist }) {
   return (
     <div>
-      <Typography sx={{margin:'20px'}} variant="h6">Todo List</Typography>
+      <Typography sx={{ margin: '20px' }} variant="h6">
+        Todo List
+      </Typography>
       {todolist.map((todo) => (
-        <TodoItem sx={{margin:'20px'}} key={todo.id} todo={todo} />
+        <TodoItem sx={{ margin: '30px' }} key={todo.id} todo={todo} />
       ))}
     </div>
   );
@@ -47,32 +65,47 @@ function TodoForm({ onAdd, todoToEdit, onEdit }) {
     setStatus('not started');
   };
 
-  const formStyle = {
-    padding: '16px', // padding
+
+  const formContainerStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    margin:'20px'
   };
 
   return (
-    <div style={formStyle}>
+    <Box style={formContainerStyle}>
       <FormControl variant="standard">
         <InputLabel htmlFor="component-simple">Title:</InputLabel>
         <Input id="component-simple" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
       </FormControl>
-      <InputLabel>
-        Deadline:
-        <Input type="text" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
-      </InputLabel>
-      <InputLabel>
-        Status:
-        <select value={status} onChange={(e) => setStatus(e.target.value)}>
-          <option value="not started">Not Started</option>
-          <option value="in progress">In Progress</option>
-          <option value="done">Done</option>
-        </select>
-      </InputLabel>
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Button variant="contained" onClick={handleSave}>Add</Button>
+      <FormControl sx={{marginTop:'10px'}}variant="standard">
+        <InputLabel htmlFor="component-simple">Deadline:</InputLabel>
+        <Input id="component-simple" type="text" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
+      </FormControl>
+      <FormControl  sx={{marginTop:'10px'}} variant="standard">
+        <InputLabel htmlFor="status-select">Status:</InputLabel>
+        <Select
+          id="status-select"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
+          <MenuItem value="not started">Not Started</MenuItem>
+          <MenuItem value="in progress">In Progress</MenuItem>
+          <MenuItem value="done">Done</MenuItem>
+        </Select>
+      </FormControl>
+      <Box sx={{ display: 'flex', justifyContent: 'center', margin: '20px' }}>
+        <Button sx={{marginRight:'20px'}} variant="contained" onClick={handleSave}>
+          Add
+        </Button>
+        <Button variant="contained" onClick={handleClear}>
+          Clear
+        </Button>
       </Box>
-    </div>
+    </Box>
   );
 }
 
@@ -90,20 +123,21 @@ function App() {
   const id = open ? 'simple-popover' : undefined;
 
   return (
-     <div>
+    <div>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6">Todo App</Typography>
         </Toolbar>
       </AppBar>
-
-      <Box sx={{
-        display: 'flex',
-        flexDirection: 'column', // Stack children vertically
-        alignItems: 'center', // Center horizontally
-        minHeight: '100vh', // Set a minimum height for centering
-        margin:'20px'
-      }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          minHeight: '100vh',
+          margin: '20px',
+        }}
+      >
         <Card variant="outlined">
           <CardContent>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -113,7 +147,7 @@ function App() {
           <CardActions>
             <Button
               variant="contained"
-              sx={{ margin: '20px', alignSelf: 'center' }} // Align the button to the center
+              sx={{ margin: '20px', alignSelf: 'center' }}
               onClick={(e) => setFormOpen(e.currentTarget)}
             >
               Add To Do
