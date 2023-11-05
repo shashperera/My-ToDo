@@ -20,7 +20,7 @@ import WarningIcon from '@mui/icons-material/Warning';
 import ErrorIcon from '@mui/icons-material/Error';
 
 // TodoItem Component
-function TodoItem({ todo }) {
+function TodoItem({ todo,onEdit  }) {
   // Define icons for each status
   const statusIcons = {
     'not started': <ErrorIcon sx={{ color: 'red' }} />,
@@ -32,40 +32,40 @@ function TodoItem({ todo }) {
     <Card variant="outlined" sx={{ marginBottom: 2 }}>
       <CardContent>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
-   
+
         </div>
         <Typography variant="body2">{statusIcons[todo.status]}Title: {todo.title}</Typography>
         <Typography variant="body2">{statusIcons[todo.status]} Deadline: {todo.deadline}</Typography>
-        
+        <Button onClick={() => onEdit(todo)}>Edit</Button> {/* Pass the entire todo as a parameter */}
       </CardContent>
     </Card>
   );
 }
 
 // TodoList Component
-function TodoList({ todolist }) {
+function TodoList({ todolist, onEdit  }) {
   return (
     <div>
       <Typography sx={{ marginY: 2 }} variant="h6">
         Todo List
       </Typography>
       {todolist.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} />
+        <TodoItem key={todo.id} todo={todo} onEdit={onEdit} />
       ))}
-      <p><ErrorIcon sx={{ color: 'red' }}/>not started {"\t\t\t\t\t"}  <WarningIcon sx={{ color: 'yellow' }} />in progress <CheckCircleIcon sx={{ color: 'green' }} />done</p>
+      <p><ErrorIcon sx={{ color: 'red' }} />not started {"\t\t\t\t\t"}  <WarningIcon sx={{ color: 'yellow' }} />in progress <CheckCircleIcon sx={{ color: 'green' }} />done</p>
     </div>
   );
 }
 
 // TodoForm Component
-function TodoForm({ onAdd, todoToEdit, onEdit }) {
+function TodoForm({ onAdd, todoToEdit, onEdit, isOpen, toggleForm }) {
   const [title, setTitle] = useState(todoToEdit ? todoToEdit.title : '');
   const [deadline, setDeadline] = useState(todoToEdit ? todoToEdit.deadline : '');
   const [status, setStatus] = useState(todoToEdit ? todoToEdit.status : 'not started');
 
   const handleSave = () => {
     if (todoToEdit) {
-      onEdit({ id: todoToEdit.id, title, deadline, status });
+      onEdit({ ...todoToEdit, title, deadline, status }); // Include all properties of the todo
     } else {
       onAdd({ title, deadline, status });
     }
@@ -126,12 +126,24 @@ function TodoForm({ onAdd, todoToEdit, onEdit }) {
 // App Component
 function App() {
   const [todolist, settodolist] = useState([]);
+  const [editTodo, setEditTodo] = useState(null);
   const [formOpen, setFormOpen] = useState(null);
 
   const addTodo = (newTodo) => {
     settodolist([...todolist, { ...newTodo, id: Date.now() }]);
     setFormOpen(null);
   };
+
+  const editTodoItem = (editedTodo) => {
+    const updatedTodos = todolist.map((todo) =>
+    todo.id === editedTodo.id ? editedTodo : todo
+    );
+    settodolist(updatedTodos);
+    setEditTodo(null);
+    setFormOpen(false);
+  };
+
+
 
   const open = Boolean(formOpen);
   const id = open ? 'simple-popover' : undefined;
@@ -172,6 +184,8 @@ function App() {
           id={id}
           open={open}
           anchorEl={formOpen}
+          todoToEdit={editTodo}
+          onEdit={editTodoItem}  
           onClose={() => setFormOpen(null)}
           anchorOrigin={{
             vertical: 'bottom',
@@ -182,9 +196,11 @@ function App() {
             horizontal: 'right',
           }}
         >
-          <TodoForm onAdd={addTodo} isOpen={open} />
+          <TodoForm onAdd={addTodo} isOpen={open} todoToEdit={editTodo} onEdit={editTodoItem} toggleForm={() => setFormOpen(!formOpen)}
+
+ />
         </Popover>
-        <TodoList todolist={todolist} />
+        <TodoList todolist={todolist} onEdit={setEditTodo} />
       </Box>
     </div>
   );
