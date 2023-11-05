@@ -1,5 +1,6 @@
 # My-ToDo App
 
+![IMG-20231105-WA0016](https://github.com/shashperera/My-ToDo/assets/40666122/21d8c4da-ada6-4d50-898b-f5506465dcc1)
 
 ## File structure
 
