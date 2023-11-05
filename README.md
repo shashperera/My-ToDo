@@ -1,4 +1,5 @@
-# Getting Started with My-ToDo App
+# My-ToDo App
+
 
 ## File structure
 
