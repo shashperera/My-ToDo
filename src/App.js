@@ -20,7 +20,7 @@ import WarningIcon from '@mui/icons-material/Warning';
 import ErrorIcon from '@mui/icons-material/Error';
 
 // TodoItem Component
-function TodoItem({ todo,onEdit  }) {
+function TodoItem({ todo, onEdit }) {
   // Define icons for each status
   const statusIcons = {
     'not started': <ErrorIcon sx={{ color: 'red' }} />,
@@ -43,7 +43,7 @@ function TodoItem({ todo,onEdit  }) {
 }
 
 // TodoList Component
-function TodoList({ todolist, onEdit  }) {
+function TodoList({ todolist, onEdit }) {
   return (
     <div>
       <Typography sx={{ marginY: 2 }} variant="h6">
@@ -58,7 +58,7 @@ function TodoList({ todolist, onEdit  }) {
 }
 
 // TodoForm Component
-function TodoForm({ onAdd, todoToEdit, onEdit, isOpen, toggleForm }) {
+function TodoForm({ onAdd, todoToEdit, onEdit, toggleForm }) {
   const [title, setTitle] = useState(todoToEdit ? todoToEdit.title : '');
   const [deadline, setDeadline] = useState(todoToEdit ? todoToEdit.deadline : '');
   const [status, setStatus] = useState(todoToEdit ? todoToEdit.status : 'not started');
@@ -72,6 +72,7 @@ function TodoForm({ onAdd, todoToEdit, onEdit, isOpen, toggleForm }) {
 
     // Clear the form
     handleClear();
+    toggleForm();
   };
 
   const handleClear = () => {
@@ -136,7 +137,7 @@ function App() {
 
   const editTodoItem = (editedTodo) => {
     const updatedTodos = todolist.map((todo) =>
-    todo.id === editedTodo.id ? editedTodo : todo
+      todo.id === editedTodo.id ? editedTodo : todo
     );
     settodolist(updatedTodos);
     setEditTodo(null);
@@ -184,8 +185,6 @@ function App() {
           id={id}
           open={open}
           anchorEl={formOpen}
-          todoToEdit={editTodo}
-          onEdit={editTodoItem}  
           onClose={() => setFormOpen(null)}
           anchorOrigin={{
             vertical: 'bottom',
@@ -196,10 +195,14 @@ function App() {
             horizontal: 'right',
           }}
         >
-          <TodoForm onAdd={addTodo} isOpen={open} todoToEdit={editTodo} onEdit={editTodoItem} toggleForm={() => setFormOpen(!formOpen)}
-
- />
-        </Popover>
+          <TodoForm
+            onAdd={addTodo}
+            todoToEdit={editTodo}
+            onEdit={editTodoItem}
+            open={open}
+            toggleForm={() => setFormOpen(!formOpen)}
+          />
+       </Popover>
         <TodoList todolist={todolist} onEdit={setEditTodo} />
       </Box>
     </div>
