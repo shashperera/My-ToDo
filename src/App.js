@@ -7,6 +7,7 @@ import {
   Popover,
   Box,
   Card,
+  Grid,
   CardActions,
   CardContent,
   FormControl,
@@ -23,19 +24,23 @@ import ErrorIcon from '@mui/icons-material/Error';
 function TodoItem({ todo, onEdit }) {
   // Define icons for each status
   const statusIcons = {
-    'not started': <ErrorIcon sx={{ color: 'red' }} />,
-    'in progress': <WarningIcon sx={{ color: 'yellow' }} />,
-    'done': <CheckCircleIcon sx={{ color: 'green' }} />,
+    'not started': <ErrorIcon sx={{ color: 'red',fontSize: 50}} />,
+    'in progress': <WarningIcon sx={{ color: 'yellow',fontSize:50 }} />,
+    'done': <CheckCircleIcon sx={{ color: 'green',fontSize:50}} />,
   };
 
   return (
     <Card variant="outlined" sx={{ marginBottom: 2 }}>
       <CardContent>
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
-
-        </div>
-        <Typography variant="body2">{statusIcons[todo.status]}Title: {todo.title}</Typography>
-        <Typography variant="body2">{statusIcons[todo.status]} Deadline: {todo.deadline}</Typography>
+      <Grid container spacing={2}> {/* Use a Grid container */}
+          <Grid item xs={3} sx={{ display: 'flex', alignItems: 'center' }}> {/* First column with 6 units */}
+            {statusIcons[todo.status]}
+          </Grid>
+          <Grid item xs={9}> {/* Second column with 6 units */}
+          <Typography variant="body2" sx={{ marginBottom: 3 }}>Title: {todo.title}</Typography>
+            <Typography variant="body2">Deadline: {todo.deadline}</Typography>
+          </Grid>
+        </Grid>
         <Button onClick={() => onEdit(todo)}>Edit</Button> {/* Pass the entire todo as a parameter */}
       </CardContent>
     </Card>
